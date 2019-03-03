@@ -1,11 +1,3 @@
--- Some of this addon is from another similar addon that I can't remember the name of,
--- specifically the getDistribution and getDistributionSetting methods are from somewhere
--- else, although I repurposed them and their implementation (I needed a touch of inspiration,
--- first time Lua writer and all that).
-
--- Addon written by Ivona, Terenas, EU.
--- detonator316@gmail.com
-
 function Interrupted_OnLoad(self)
    self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 end
