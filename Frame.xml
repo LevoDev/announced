@@ -1,0 +1,13 @@
+﻿<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Frame.lua" />
+	<Frame name="Interrupted_Frame">
+		<Scripts>
+			<OnLoad>
+        Interrupted_OnLoad(self);
+      </OnLoad>
+			<OnEvent>
+        Interrupted_OnEvent(self, event, ...);
+      </OnEvent>
+		</Scripts>
+	</Frame>
+</Ui>

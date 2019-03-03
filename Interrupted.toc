@@ -1,0 +1,8 @@
+## Interface: 24300
+## Author: Lev
+## Notes: Announces spell interrupts
+## Title: Interrupted
+## Version: 1.1
+Interrupted.lua
+Frame.xml
+Frame.lua
