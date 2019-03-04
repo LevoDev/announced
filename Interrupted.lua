@@ -1,3 +1,11 @@
+-- Some of this addon is from another similar addon that I can't remember the name of,
+-- specifically the getDistribution and getDistributionSetting methods are from somewhere
+-- else, although I repurposed them and their implementation (I needed a touch of inspiration,
+-- first time Lua writer and all that).
+
+-- Addon written by Ivona, Terenas, EU.
+-- detonator316@gmail.com
+
 function Interrupted_OnLoad(self)
    self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 end
@@ -41,7 +49,7 @@ local function getDistributionSetting()
 	elseif GetNumPartyMembers() > 0 then
 		return "say"
 	else
-		return "test"
+		return "say"
 	end
 end
 
@@ -66,7 +74,7 @@ local function getDistribution(p)
 	elseif p:lower() == "yell" then
 		return "SAY"
 	else
-		return "TEST"
+		return "SAY"
 	end
 end
 
@@ -83,7 +91,6 @@ end
 function Interrupted_OnEvent(self, event, ... )
 	-- Variadic function spaff.
 	local timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, spellID, spellName, _, missType = ...
-	local bit_band, strsub, tonumber = bit.band, strsub, tonumber
 	
 	-- If this was a spell interrupt from the current player
 	if srcGUID == UnitGUID("player") and eventtype == "SPELL_INTERRUPT" then
@@ -137,12 +144,16 @@ function Interrupted_OnEvent(self, event, ... )
 		-- Write message to client
 		sendMessage(string.format("%s failed on %s (%s)", spellName, dstName, reason))
 	end
-
-	if srcGUID == UnitGUID("player") and eventtype == "SPELL_DAMAGE" then
-		if bit_band(dstFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 and tonumber(strsub(dstGUID, 6, 10), 16) == 5925 then
-			local spellID, spellName, spellSchool, amount, overkill, school, resisted, blocked, absorbed, critical, glancing, crushing = ...
-			sendMessage(string.format("Grounded %s", GetSpellLink(spellID)))
+	
+	if dstGUID == UnitGUID("player") and eventtype == "SPELL_MISSED" then
+		local srcSpellId, srcSpellName, srcSpellSchool, dstSpellId, dstSpellName, dstSpellSchool = select(9, ...);
+		if missType == "REFLECT" then
+			sendMessage(string.format("Reflected %s's %s", srcName, GetSpellLink(srcSpellId)))
 		end
-		return
+	end
+
+	if srcGUID == UnitGUID("player") and eventtype == "SPELL_DISPEL" then
+		local extraSpellId, srcSpellId, srcSpellName, srcSpellSchool, dstSpellId, dstSpellName, dstSpellSchool = select(9, ...);
+		sendMessage(string.format("Dispelled %s's %s", dstName, GetSpellLink(extraSpellId)))
 	end
 end
