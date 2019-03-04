@@ -145,7 +145,7 @@ function Interrupted_OnEvent(self, event, ... )
 	end
 
 	if srcGUID == UnitGUID("player") and eventtype == "SPELL_DISPEL" then
-		local extraSpellId, srcSpellId, srcSpellName, srcSpellSchool, dstSpellId, dstSpellName, dstSpellSchool = select(9, ...);
-		sendMessage(string.format("Dispelled %s's %s", dstName, GetSpellLink(extraSpellId)))
+		local srcSpellId, srcSpellName, srcSpellSchool, dstSpellId, dstSpellName, dstSpellSchool = select(9, ...);
+		sendMessage(string.format("Dispelled %s's %s", dstName, GetSpellLink(dstSpellId)))
 	end
 end
